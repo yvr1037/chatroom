@@ -5,8 +5,8 @@ import "time"
 type ServerSetting struct {
 	Runmode      string
 	HttpPort     string
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
+	ReadTimeout  time.Duration  // 读超市时间
+	WriteTimeout time.Duration  // 写超时时间
 }
 
 type DatabaseSetting struct {

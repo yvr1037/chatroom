@@ -6,3 +6,4 @@
 缓存:redis
 对象关系映射:gorm
 消息队列:rabbitmq
+鉴权方式:JWT
