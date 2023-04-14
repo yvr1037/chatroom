@@ -2,12 +2,15 @@ package main
 
 import (
 	"chatroom/global"
+	"chatroom/internal/model"
 	"chatroom/internal/routers"
 	"chatroom/internal/setting"
 	"log"
 	"net/http"
 	"time"
+
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func setupSettings() error {
@@ -30,11 +33,33 @@ func setupSettings() error {
 	return nil
 }
 
+func setupDBEngine() error {
+	var err error
+	global.DBEngine,err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func setupTableModel(db *gorm.DB,models ...interface{}) error {
+	err := db.AutoMigrate(models)
+	if err != nil {
+		return err
+	}
+	return nil 
+}
+
 func init() {
 	err := setupSettings()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
 	}
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v",err)
+	}
+	err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
 }
 
 func main() {
@@ -47,7 +72,7 @@ func main() {
 		WriteTimeout:   global.ServerSettings.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-	if err := s.ListenAndServe();err != nil {
-		log.Fatalf("ListenAndServer err: %v",err)
+	if err := s.ListenAndServe(); err != nil {
+		log.Fatalf("ListenAndServe err: %v", err)
 	}
 }
