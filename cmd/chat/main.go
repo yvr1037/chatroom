@@ -59,7 +59,9 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v",err)
 	}
-	err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
+	// err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
+	err = setupTableModel(global.DBEngine, &model.User{})
+	err = setupTableModel(global.DBEngine, &model.Message{})
 }
 
 func main() {
