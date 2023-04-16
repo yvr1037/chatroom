@@ -4,5 +4,6 @@ import "chatroom/internal/setting"
 
 var (
 	ServerSettings  *setting.ServerSetting
-	DatabaseSetting *setting.DatabaseSetting
+	DatabaseSettings *setting.DatabaseSetting
+	JWTSettings *setting.JWTSetting
 )

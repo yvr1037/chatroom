@@ -23,19 +23,23 @@ func setupSettings() error {
 	if err != nil {
 		return err
 	}
-	err = setting.ReadSection("DataBase", &global.DatabaseSetting)
+	err = setting.ReadSection("DataBase", &global.DatabaseSettings)
 	if err != nil {
 		return err
 	}
-
+	err = setting.ReadSection("JWT",global.JWTSettings)
+	if err != nil {
+		return err
+	}
 	global.ServerSettings.ReadTimeout *= time.Second
 	global.ServerSettings.WriteTimeout *= time.Second
+	global.JWTSettings.Expire *= time.Second
 	return nil
 }
 
 func setupDBEngine() error {
 	var err error
-	global.DBEngine,err = model.NewDBEngine(global.DatabaseSetting)
+	global.DBEngine,err = model.NewDBEngine(global.DatabaseSettings)
 	if err != nil {
 		return err
 	}

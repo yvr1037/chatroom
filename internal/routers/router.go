@@ -2,6 +2,7 @@ package routers
 
 import (
 	"chatroom/global"
+	"chatroom/internal/middleware"
 	"chatroom/internal/routers/api"
 	"net/http"
 
@@ -23,16 +24,24 @@ func NewRouter() *gin.Engine {
 	// }
 
 	user := api.NewUser()
-	message := api.NewMessage()
+	// message := api.NewMessage()
 	apiGroup := r.Group("/api")
 	{
-		apiGroup.GET("/",func(c *gin.Context){
-			c.JSON(http.StatusOK,gin.H{"msg":"test"})
-		})
-
+		// apiGroup.GET("/",func(c *gin.Context){
+		// 	c.JSON(http.StatusOK,gin.H{"msg":"test"})
+		// })
 		apiGroup.POST("/register",user.Register)
 		apiGroup.POST("/login",user.Login)
-		apiGroup.POST("/send",message.Send)
+		// apiGroup.POST("/send",message.Send)
+	}
+	
+	wsGroup := r.Group("/ws")
+	wsGroup.Use(middleware.JWT())
+	{
+		wsGroup.GET("/test",func(c *gin.Context){
+			c.JSON(http.StatusOK,gin.H{"msg":"test"})
+		})
+		wsGroup.GET("/",WebsocketHandler)
 	}
 	return r
 }
