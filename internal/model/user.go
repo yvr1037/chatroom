@@ -7,10 +7,11 @@ import (
 )
 
 type User struct {
-	ID        uint64 `json:"user_id" gorm:"autoIncrement"`
-	Username  string `json:"user_name"`
-	NickName  string `json:"nick_name"`
-	Password  string `json:"password"`
+	ID       uint64 `json:"user_id" gorm:"autoIncrement"`
+	Username string `json:"user_name"`
+	NickName string `json:"nick_name"`
+	// Password  string `json:"password"`
+	Password  string `json:"-"`
 	CreatedAt int64  `json:"created_at" gorm:"autoCreateTime:milli"`
 	UpdatedAt int64  `json:"updated_at" gorm:"autoUpdateTime:milli"`
 }
