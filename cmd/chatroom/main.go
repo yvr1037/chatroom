@@ -13,6 +13,38 @@ import (
 	"gorm.io/gorm"
 )
 
+func init() {
+	err := setupSettings()
+	if err != nil {
+		log.Fatalf("init.setupSetting err: %v", err)
+	}
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v",err)
+	}
+	// err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
+	err = setupTableModel(global.DBEngine, &model.User{})
+	// err = setupTableModel(global.DBEngine, &model.Message{})
+	if err != nil {
+		log.Fatalf("init.setupTableModel err: %v",err)
+	}
+}
+
+func main() {
+	gin.SetMode(global.ServerSettings.Runmode)
+	router := routers.NewRouter()
+	s := &http.Server{
+		Addr:           ":" + global.ServerSettings.HttpPort,
+		Handler:        router,
+		ReadTimeout:    global.ServerSettings.ReadTimeout,
+		WriteTimeout:   global.ServerSettings.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
+	}
+	if err := s.ListenAndServe(); err != nil {
+		log.Fatalf("ListenAndServe err: %v", err)
+	}
+}
+
 func setupSettings() error {
 	setting, err := setting.NewSetting()
 	if err != nil {
@@ -52,36 +84,4 @@ func setupTableModel(db *gorm.DB,models ...interface{}) error {
 		return err
 	}
 	return nil 
-}
-
-func init() {
-	err := setupSettings()
-	if err != nil {
-		log.Fatalf("init.setupSetting err: %v", err)
-	}
-	err = setupDBEngine()
-	if err != nil {
-		log.Fatalf("init.setupDBEngine err: %v",err)
-	}
-	// err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
-	err = setupTableModel(global.DBEngine, &model.User{})
-	// err = setupTableModel(global.DBEngine, &model.Message{})
-	if err != nil {
-		log.Fatalf("init.setupTableModel err: %v",err)
-	}
-}
-
-func main() {
-	gin.SetMode(global.ServerSettings.Runmode)
-	router := routers.NewRouter()
-	s := &http.Server{
-		Addr:           ":" + global.ServerSettings.HttpPort,
-		Handler:        router,
-		ReadTimeout:    global.ServerSettings.ReadTimeout,
-		WriteTimeout:   global.ServerSettings.WriteTimeout,
-		MaxHeaderBytes: 1 << 20,
-	}
-	if err := s.ListenAndServe(); err != nil {
-		log.Fatalf("ListenAndServe err: %v", err)
-	}
 }
