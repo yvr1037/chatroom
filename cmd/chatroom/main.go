@@ -65,7 +65,10 @@ func init() {
 	}
 	// err = setupTableModel(global.DBEngine,&model.User{},&model.Message{})
 	err = setupTableModel(global.DBEngine, &model.User{})
-	err = setupTableModel(global.DBEngine, &model.Message{})
+	// err = setupTableModel(global.DBEngine, &model.Message{})
+	if err != nil {
+		log.Fatalf("init.setupTableModel err: %v",err)
+	}
 }
 
 func main() {

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"chatroom/internal/model"
 	"chatroom/internal/request"
 	"chatroom/pkg/auth"
 	"chatroom/pkg/errcode"
@@ -26,4 +27,8 @@ func (svc *Service) UserLogin(param *request.UserLoginRequest) (*LoginRespondCon
 		UserID: ID,
 		Token:  token,
 	}, nil
+}
+
+func (svc *Service) UserGet(userID uint64) (*model.User,*errcode.Error){
+	return svc.dao.UserGet(userID)
 }
