@@ -30,7 +30,7 @@ func GenerateToken(ID uint64) (string, error) {
 	return tokenString, err
 }
 ```
-在这个函数中，生成 JWT token 字符串的过程包括以下步骤:获取当前时间nowTime.并计算出 token 的到期时间 expireTime。创建一个 Claims 对象，并将传入的用户 ID 保存在其中的 UserID 属性中。设置该 Claims 对象的标准声明（RegisteredClaims），其中包括：到期时间 (ExpiresAt)、颁发时间 (IssuedAt)、生效时间 (NotBefore) 和签发者 (Issuer)。这些信息将被用来验证和解析 token。使用 jwt.NewWithClaims() 函数创建一个新的 token 对象 tokenClaims，并指定加密算法为 HS256。调用 tokenClaims.SignedString() 方法生成 token 字符串 token，其中使用了通过调用 GetJWTSecret() 函数获取的配置文件中的 JWT 密钥进行签名。最终，该函数将返回生成的 JWT token 字符串以及可能出现的错误信息。
+这是一个用于生成JWT token的函数。JWT（JSON Web Token）是一种轻量级的身份验证和授权机制，它使用JSON数据格式来传递信息。在这个函数中，输入参数为用户的ID（类型为uint64），输出参数为生成的token字符串和可能存在的错误。在函数内部，首先获取当前时间nowTime，并计算出过期时间expireTime，然后创建了一个Claims结构体对象。该结构体包含了用户的ID以及其他JWT标准字段，如过期时间（ExpiresAt）、签发时间（IssuedAt）、生效时间（NotBefore）和颁发（Issuer）。Claims结构体实际上是JWT的一个有效载荷，用于存储身份验证和授权信息。接着，使用JWT库提供的NewWithClaims()函数创建了一个JWT token对象，其中使用HS256算法进行签名。最后，调用SignedString()函数对JWT token进行签名并返回token字符串和可能存在的错误。总之，这个函数的主要作用是生成基于给定用户ID的JWT token，以便进行身份验证和授权。
 
 ```go
 func ParseToken(tokenString string) (*Claims, error) {
