@@ -9,7 +9,8 @@ import (
 
 type LoginRespondContent struct {
 	UserID uint64 `json:"user_id"`
-	Token  string `json:"token"`
+	Nickname string `json:"nick_name"`
+	Token string `json:"token"`
 }
 
 func (svc *Service) UserRegister(param *request.UserRegisterRequest) *errcode.Error {
@@ -25,6 +26,7 @@ func (svc *Service) UserLogin(param *request.UserLoginRequest) (*LoginRespondCon
 	token, _ := auth.GenerateToken(ID)
 	return &LoginRespondContent{
 		UserID: ID,
+		Nickname: user.NickName,
 		Token:  token,
 	}, nil
 }
