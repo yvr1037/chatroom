@@ -29,9 +29,9 @@ func GenerateToken(ID uint64) (string, error) {
 		},
 	}
 
-	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenClaims.SignedString(GetJWTSecret())
-	return token, err
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(GetJWTSecret())
+	return tokenString, err
 }
 
 func ParseToken(tokenString string) (*Claims, error) {

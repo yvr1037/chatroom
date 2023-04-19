@@ -8,14 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func JWT() gin.HandlerFunc { // Gin 中间件函数,用于身份验证和授权;
+func JWT() gin.HandlerFunc { // Gin中间件函数,用于身份验证和授权;
 	return func(c *gin.Context) {
-		token := c.GetHeader("token")
+		// tokenString := c.GetHeader("token")
+		tokenString,exists := c.GetQuery("token")
 		code := errcode.Success
-		if token == "" {
+		if !exists || tokenString== "" {
 			code = errcode.InvalidParams
 		}else {
-			claims,err := auth.ParseToken(token)
+			claims,err := auth.ParseToken(tokenString)
 			if err != nil {
 				code = errcode.UnauthorizedTokenError
 			}else {
