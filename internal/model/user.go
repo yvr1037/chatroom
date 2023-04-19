@@ -12,8 +12,8 @@ type User struct {
 	NickName string `json:"nick_name"`
 	// Password  string `json:"password"`
 	Password  string `json:"-"`
-	CreatedAt int64  `json:"created_at" gorm:"autoCreateTime:milli"`
-	UpdatedAt int64  `json:"updated_at" gorm:"autoUpdateTime:milli"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
 }
 
 func (u User) Create(db *gorm.DB) *errcode.Error {
