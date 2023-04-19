@@ -48,7 +48,8 @@ func (u *User) CloseMessageChannel() {
 
 func (u *User) ReceiveMessage(ctx context.Context) error {
 	var (
-		receiveMessage string
+		// receiveMessage string
+		receiveMessage map[string]string
 		err            error
 	)
 	for {
@@ -64,7 +65,7 @@ func (u *User) ReceiveMessage(ctx context.Context) error {
 			return err
 		}
 
-		sendMessage := NewMessage(u,receiveMessage)
+		sendMessage := NewMessage(u,receiveMessage["message_content"])
 		Broadcaster.Broadcast(sendMessage)
 	}
 }
