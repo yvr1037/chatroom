@@ -64,6 +64,7 @@ func setupSettings() error {
 		return err
 	}
 	global.ServerSettings.ReadTimeout *= time.Second
+	
 	global.ServerSettings.WriteTimeout *= time.Second
 	global.JWTSettings.Expire *= time.Second
 	return nil
