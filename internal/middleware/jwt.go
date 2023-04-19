@@ -20,7 +20,7 @@ func JWT() gin.HandlerFunc { // Gin中间件函数,用于身份验证和授权;
 			if err != nil {
 				code = errcode.UnauthorizedTokenError
 			}else {
-				c.Set("UserID",claims.ID)
+				c.Set("UserID",claims.UserID)
 			}
 		}
 		if code != errcode.Success {
